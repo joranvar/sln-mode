@@ -1,0 +1,2 @@
+* sln-mode
+An Emacs major-mode for msvc's *.sln files.
