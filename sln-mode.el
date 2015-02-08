@@ -28,7 +28,7 @@
 ;; 
 ;; A major-mode for msvc's *.sln files.
 
-(require 'font-lock-ext) ; https://github.com/sensorflo/font-lock-ext/
+;;(require 'font-lock-ext) ; https://github.com/sensorflo/font-lock-ext/
 
 
 ;;; Variables:
