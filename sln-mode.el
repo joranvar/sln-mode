@@ -282,6 +282,16 @@ BEG and END define the region to be unfontified."
   (when (looking-back "^[ \t]*")
     (re-search-forward "\\=[ \t]+")))
 
+(defun sln-add-project (project-name)
+  "Add a project to the sln file.
+
+The name of the project is PROJECT-NAME."
+  (save-excursion
+    (goto-char (point-min))
+    (re-search-forward "^Global$")
+    (beginning-of-line)
+    (insert "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectName.csproj\", \"{ProjectUUID}\"\nEndProject\n")))
+
 ;;;###autoload
 (define-derived-mode sln-mode text-mode "sln"
   "Major mode for editing msvc's *.sln files.
