@@ -221,7 +221,9 @@ then nothing is done."
       (indent-according-to-mode))))
 
 (defun sln-unfontify-region-function (beg end)
-  "sln-mode's function for `font-lock-unfontify-region-function'."
+  "Sln-mode's function for `font-lock-unfontify-region-function'.
+
+BEG and END define the region to be unfontified."
   (font-lock-default-unfontify-region beg end)
   
   ;; todo: this is an extremely brute force solution and interacts very badly
@@ -229,7 +231,7 @@ then nothing is done."
   (remove-overlays beg end))
 
 (defun sln-indent-line-function ()
-  "sln-mode's function for `indent-line-function'."
+  "Sln-mode's function for `indent-line-function'."
   ;; In the regexps [ \t] instead \s- is used since only horizontal blanks are
   ;; of interest
   (save-excursion
