@@ -35,3 +35,14 @@ EndGlobal
     (forward-line)
     (should (equal (thing-at-point 'line) "EndProject\n"))
     ))
+
+(ert-deftest sln-add-project--when-missing-file-name--should-signal-error ()
+  (with-temp-buffer
+    (sln-test--insert-empty-solution)
+    (should-error (sln-add-project nil))))
+
+(ert-deftest sln-add-project--with-empty-file-name--should-signal-error ()
+  (with-temp-buffer
+    (sln-test--insert-empty-solution)
+    (should-error (sln-add-project ""))))
+

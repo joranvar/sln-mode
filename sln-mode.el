@@ -287,6 +287,8 @@ BEG and END define the region to be unfontified."
 
 If PROJECT-NAME is non-nil, this is the name of the project.
   Otherwise, it will be derived from the PROJECT-FILE-NAME."
+  (or (< 0 (length project-file-name))
+      (error "Invalid project-file-name: '%s'" project-file-name))
   (save-excursion
     (goto-char (point-min))
     (re-search-forward "^Global$")
