@@ -290,7 +290,8 @@ The name of the project is PROJECT-NAME."
     (goto-char (point-min))
     (re-search-forward "^Global$")
     (beginning-of-line)
-    (insert "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectName.csproj\", \"{ProjectUUID}\"\nEndProject\n")))
+    (insert
+     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"${project-name}\", \"${project-name}.csproj\", \"{ProjectUUID}\"\nEndProject\n"))))
 
 ;;;###autoload
 (define-derived-mode sln-mode text-mode "sln"
