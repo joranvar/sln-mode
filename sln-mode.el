@@ -282,7 +282,20 @@ BEG and END define the region to be unfontified."
   (when (looking-back "^[ \t]*")
     (re-search-forward "\\=[ \t]+")))
 
-(defun sln-add-project (project-file-name &optional project-name)
+(defun sln--get-project-uuid-from-file (project-file-name)
+  "Extract the project uuid from PROJECT-FILE-NAME."
+  (with-temp-buffer
+    (insert-file-contents project-file-name)
+    (if (re-search-forward "<ProjectGuid>{\\(.+\\)}</ProjectGuid>"
+			   nil t)
+	(match-string 1)
+      nil)))
+
+(defun sln--generate-uuid ()
+  "Generate a random uuid by using the uuidgen command."
+  (nth 0 (process-lines "uuidgen")))
+
+(defun sln-add-project (project-file-name &optional project-name project-uuid)
   "Add the project in PROJECT-FILE-NAME to the sln file.
 
 If PROJECT-NAME is non-nil, this is the name of the project.
@@ -293,9 +306,14 @@ If PROJECT-NAME is non-nil, this is the name of the project.
     (goto-char (point-min))
     (re-search-forward "^Global$")
     (beginning-of-line)
-    (let ((project-name (or project-name (f-base project-file-name))))
-    (insert
-     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"${project-name}\", \"${project-file-name}\", \"{ProjectUUID}\"\nEndProject\n")))))
+    (let ((project-name (or project-name (f-base project-file-name)))
+	  (project-uuid (or project-uuid
+			    (sln--get-project-uuid-from-file
+			     project-file-name)
+			    (sln--generate-uuid)
+			    )))
+      (insert
+       (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"${project-name}\", \"${project-file-name}\", \"{${project-uuid}}\"\nEndProject\n")))))
 
 ;;;###autoload
 (define-derived-mode sln-mode text-mode "sln"
