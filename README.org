@@ -1,2 +1,8 @@
 * sln-mode
 An Emacs major-mode for msvc's *.sln files.
+
+* Still TODO
+
+- [[file:test/sln-mode-test.el::%3B%3B%20TODO:%20Add%20ProjectConfigurationPlatforms%20too,%20when%20adding%20a%20project][file:test/sln-mode-test.el::;; TODO: Add ProjectConfigurationPlatforms too, when adding a project]]
+
+- [[file:test/sln-mode-test.el::%3B%3B%20TODO?%20Create%20non-existing%20project%20file%20from%20here][file:test/sln-mode-test.el::;; TODO? Create non-existing project file from here]]
