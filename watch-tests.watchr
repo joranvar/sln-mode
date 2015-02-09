@@ -7,7 +7,7 @@ end
 
 def run_all_tests
   system('clear')
-  result = run "./run-tests.sh"
+  result = run "cask exec ert-runner"
   puts result
 end
 
