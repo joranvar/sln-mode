@@ -18,7 +18,7 @@ EndGlobal
   (unwind-protect
       (with-temp-buffer
 	(sln-test--insert-empty-solution)
-	(sln-add-project "NewProjectName" "NewProjectFile.csproj")
+	(sln-add-project "NewProjectFile.csproj" "NewProjectName")
 	(goto-char (point-min))
 	(forward-line 4)
 	(should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectFile.csproj\", \"{ProjectUUID}\"\n"))
@@ -30,7 +30,7 @@ EndGlobal
   (unwind-protect
       (with-temp-buffer
 	(sln-test--insert-empty-solution)
-	(sln-add-project "DifferentProjectName")
+	(sln-add-project "DifferentProjectName.csproj")
 	(goto-char (point-min))
 	(forward-line 4)
 	(should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"DifferentProjectName\", \"DifferentProjectName.csproj\", \"{ProjectUUID}\"\n"))

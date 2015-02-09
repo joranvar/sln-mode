@@ -282,16 +282,16 @@ BEG and END define the region to be unfontified."
   (when (looking-back "^[ \t]*")
     (re-search-forward "\\=[ \t]+")))
 
-(defun sln-add-project (project-name &optional project-file-name)
-  "Add a project to the sln file.
+(defun sln-add-project (project-file-name &optional project-name)
+  "Add the project in PROJECT-FILE-NAME to the sln file.
 
-The name of the project is PROJECT-NAME.  If PROJECT-FILE-NAME is
-given, this is the location of the .[cf]sproj file."
+If PROJECT-NAME is non-nil, this is the name of the project.
+  Otherwise, it will be derived from the PROJECT-FILE-NAME."
   (save-excursion
     (goto-char (point-min))
     (re-search-forward "^Global$")
     (beginning-of-line)
-    (let ((project-file-name (or project-file-name (concat project-name ".csproj"))))
+    (let ((project-name (or project-name (f-base project-file-name))))
     (insert
      (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"${project-name}\", \"${project-file-name}\", \"{ProjectUUID}\"\nEndProject\n")))))
 
