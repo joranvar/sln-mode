@@ -15,25 +15,23 @@ EndGlobal
 "))
 
 (ert-deftest sln-add-project--in-empty-solution--should-add-it-right-on-top ()
-  (unwind-protect
-      (with-temp-buffer
-	(sln-test--insert-empty-solution)
-	(sln-add-project "NewProjectFile.csproj" "NewProjectName")
-	(goto-char (point-min))
-	(forward-line 4)
-	(should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectFile.csproj\", \"{ProjectUUID}\"\n"))
-	(forward-line)
-	(should (equal (thing-at-point 'line) "EndProject\n"))
-    nil)))
+  (with-temp-buffer
+    (sln-test--insert-empty-solution)
+    (sln-add-project "NewProjectFile.csproj" "NewProjectName")
+    (goto-char (point-min))
+    (forward-line 4)
+    (should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectFile.csproj\", \"{ProjectUUID}\"\n"))
+    (forward-line)
+    (should (equal (thing-at-point 'line) "EndProject\n"))
+    ))
 
 (ert-deftest sln-add-project--in-empty-solution--should-add-it-right-on-top-2 ()
-  (unwind-protect
-      (with-temp-buffer
-	(sln-test--insert-empty-solution)
-	(sln-add-project "DifferentProjectName.csproj")
-	(goto-char (point-min))
-	(forward-line 4)
-	(should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"DifferentProjectName\", \"DifferentProjectName.csproj\", \"{ProjectUUID}\"\n"))
-	(forward-line)
-	(should (equal (thing-at-point 'line) "EndProject\n"))
-    nil)))
+  (with-temp-buffer
+    (sln-test--insert-empty-solution)
+    (sln-add-project "DifferentProjectName.csproj")
+    (goto-char (point-min))
+    (forward-line 4)
+    (should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"DifferentProjectName\", \"DifferentProjectName.csproj\", \"{ProjectUUID}\"\n"))
+    (forward-line)
+    (should (equal (thing-at-point 'line) "EndProject\n"))
+    ))
