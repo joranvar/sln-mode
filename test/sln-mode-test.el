@@ -1,7 +1,5 @@
-(ert-deftest sln-add-project--in-empty-solution--should-add-it-right-on-top ()
-  (unwind-protect
-      (with-temp-buffer
-	(insert "Microsoft Visual Studio Solution File, Format Version 12.00
+(defun sln-test--insert-empty-solution ()
+  (insert "Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -14,7 +12,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
-")
+"))
+
+(ert-deftest sln-add-project--in-empty-solution--should-add-it-right-on-top ()
+  (unwind-protect
+      (with-temp-buffer
+	(sln-test--insert-empty-solution)
 	(sln-add-project "NewProjectName")
 	(goto-char (point-min))
 	(forward-line 4)
@@ -26,20 +29,7 @@ EndGlobal
 (ert-deftest sln-add-project--in-empty-solution--should-add-it-right-on-top-2 ()
   (unwind-protect
       (with-temp-buffer
-	(insert "Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
-")
+	(sln-test--insert-empty-solution)
 	(sln-add-project "DifferentProjectName")
 	(goto-char (point-min))
 	(forward-line 4)
