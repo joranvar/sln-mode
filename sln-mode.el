@@ -284,12 +284,14 @@ BEG and END define the region to be unfontified."
 
 (defun sln--get-project-uuid-from-file (project-file-name)
   "Extract the project uuid from PROJECT-FILE-NAME."
-  (with-temp-buffer
-    (insert-file-contents project-file-name)
-    (if (re-search-forward "<ProjectGuid>{\\(.+\\)}</ProjectGuid>"
-			   nil t)
-	(match-string 1)
-      nil)))
+  (if (f-readable? project-file-name)
+    (with-temp-buffer
+      (insert-file-contents project-file-name)
+      (if (re-search-forward "<ProjectGuid>{\\(.+\\)}</ProjectGuid>"
+			     nil t)
+	  (match-string 1)
+	nil))
+    nil))
 
 (defun sln--generate-uuid ()
   "Generate a random uuid by using the uuidgen command."

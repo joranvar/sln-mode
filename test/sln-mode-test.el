@@ -72,6 +72,15 @@ EndGlobal
     (sln-test--insert-empty-solution)
     (should-error (sln-add-project ""))))
 
+(ert-deftest sln-add-project--when-project-file-does-not-exist-and-uuid-is-not-given--should-generate-uuid ()
+  (with-temp-buffer
+    (sln-test--insert-empty-solution)
+    (sln-add-project "unknown.csproj")
+    (goto-char (point-min))
+    (forward-line 4)
+    (should (re-search-forward "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"unknown\", \"unknown.csproj\", \"{[0-9a-fA-F]\\{8\\}-[0-9a-fA-F]\\{4\\}-[0-9a-fA-F]\\{4\\}-[0-9a-fA-F]\\{4\\}-[0-9a-fA-F]\\{12\\}}\"" nil t))
+    ))
+
 (ert-deftest sln-add-project--with-existing-project-file--should-get-uuid-from-there ()
   (with-temp-buffer
     (sln-test--insert-empty-solution)
