@@ -18,10 +18,10 @@ EndGlobal
   (unwind-protect
       (with-temp-buffer
 	(sln-test--insert-empty-solution)
-	(sln-add-project "NewProjectName")
+	(sln-add-project "NewProjectName" "NewProjectFile.csproj")
 	(goto-char (point-min))
 	(forward-line 4)
-	(should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectName.csproj\", \"{ProjectUUID}\"\n"))
+	(should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectFile.csproj\", \"{ProjectUUID}\"\n"))
 	(forward-line)
 	(should (equal (thing-at-point 'line) "EndProject\n"))
     nil)))
