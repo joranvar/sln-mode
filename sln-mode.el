@@ -304,6 +304,7 @@ BEG and END define the region to be unfontified."
 
 If PROJECT-NAME is non-nil, this is the name of the project.
   Otherwise, it will be derived from the PROJECT-FILE-NAME."
+  (interactive "FProject file: ")
   (or (< 0 (length project-file-name))
       (error "Invalid project-file-name: '%s'" project-file-name))
   (save-excursion
