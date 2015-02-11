@@ -30,6 +30,8 @@
 
 ;;(require 'font-lock-ext) ; https://github.com/sensorflo/font-lock-ext/
 (require 'font-lock)
+(require 'f)
+(require 's)
 
 (defface font-lock-unimportant
   '((((background dark)) (:foreground "gray80"))
