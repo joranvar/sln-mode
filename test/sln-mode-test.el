@@ -8,13 +8,14 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
 "))
 
-;; TODO: Add ProjectConfigurationPlatforms too, when adding a project
 ;; TODO? Create non-existing project file from here
 
 (defun sln-test--insert-empty-csharp-project (assembly-name project-uuid)
@@ -99,3 +100,21 @@ EndGlobal
 (ert-deftest sln--get-project-uuid-from-file--gets-project-uuid-from-file ()
   (let ((project-file-name (sln-test--create-temp-project-file "Assembly.Name" "ProjectGUID")))
     (should (equal (sln--get-project-uuid-from-file project-file-name) "ProjectGUID"))))
+
+(ert-deftest sln-add-project--also-adds-configuration-platforms ()
+  (with-temp-buffer
+    (sln-test--insert-empty-solution)
+    (sln-add-project "NewProjectFile.csproj" "NewProjectName" "ProjectUUID")
+    (goto-char (point-min))
+    (re-search-forward "GlobalSection(ProjectConfigurationPlatforms)")
+    (forward-line 1)
+    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU\n"))
+    (forward-line)
+    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Debug|Any CPU.Build.0 = Debug|Any CPU\n"))
+    (forward-line)
+    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Release|Any CPU.ActiveCfg = Release|Any CPU\n"))
+    (forward-line)
+    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Release|Any CPU.Build.0 = Release|Any CPU\n"))
+    ))
+
+;;; sln-mode-test.el ends here

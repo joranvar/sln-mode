@@ -320,7 +320,17 @@ If PROJECT-NAME is non-nil, this is the name of the project.
       (re-search-forward "^Global$")
       (beginning-of-line)
       (insert
-       (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"${project-name}\", \"${project-file-name}\", \"{${project-uuid}}\"\nEndProject\n")))))
+       (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"${project-name}\", \"${project-file-name}\", \"{${project-uuid}}\"\nEndProject\n")))
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward "GlobalSection(ProjectConfigurationPlatforms)")
+      (forward-line 1)
+      (-each '("Debug" "Release")
+	(lambda (config)
+	  (-each '("ActiveCfg" "Build.0")
+	    (lambda (setting)
+	      (insert
+	       (s-lex-format "\t\t{${project-uuid}}.${config}|Any CPU.${setting} = ${config}|Any CPU\n")))))))))
 
 ;;;###autoload
 (define-derived-mode sln-mode text-mode "sln"
