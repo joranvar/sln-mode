@@ -307,18 +307,18 @@ If PROJECT-NAME is non-nil, this is the name of the project.
   (interactive "FProject file: ")
   (or (< 0 (length project-file-name))
       (error "Invalid project-file-name: '%s'" project-file-name))
-  (save-excursion
-    (goto-char (point-min))
-    (re-search-forward "^Global$")
-    (beginning-of-line)
-    (let ((project-file-name (if buffer-file-name
-				 (f-relative project-file-name (f-dirname buffer-file-name))
-			       project-file-name))
-	  (project-name (or project-name (f-base project-file-name)))
-	  (project-uuid (or project-uuid
-			    (sln--get-project-uuid-from-file project-file-name)
-			    (sln--generate-uuid)
-			    )))
+  (let ((project-file-name (if buffer-file-name
+			       (f-relative project-file-name (f-dirname buffer-file-name))
+			     project-file-name))
+	(project-name (or project-name (f-base project-file-name)))
+	(project-uuid (or project-uuid
+			  (sln--get-project-uuid-from-file project-file-name)
+			  (sln--generate-uuid)
+			  )))
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward "^Global$")
+      (beginning-of-line)
       (insert
        (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"${project-name}\", \"${project-file-name}\", \"{${project-uuid}}\"\nEndProject\n")))))
 
