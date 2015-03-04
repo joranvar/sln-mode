@@ -308,7 +308,7 @@ PROJECT-UUID is present, it will be used as the UUID of the
 project.  If it is nil, it will be fetched from the
 PROJECT-FILE-NAME."
   (interactive "FProject file: ")
-  (or (< 0 (length project-file-name))
+  (unless (< 0 (length project-file-name))
       (error "Invalid project-file-name: '%s'" project-file-name))
   (let ((project-file-name (if buffer-file-name
                                (f-relative project-file-name (f-dirname buffer-file-name))
