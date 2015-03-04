@@ -311,10 +311,10 @@ If PROJECT-NAME is non-nil, this is the name of the project.
                                (f-relative project-file-name (f-dirname buffer-file-name))
                              project-file-name))
         (project-name (or project-name (f-base project-file-name)))
-        (project-uuid (or project-uuid
-                          (sln--get-project-uuid-from-file project-file-name)
-                          (sln--generate-uuid)
-                          )))
+        (project-uuid (s-upcase (or project-uuid
+                                    (sln--get-project-uuid-from-file project-file-name)
+                                    (sln--generate-uuid)
+                                    ))))
     (save-excursion
       (goto-char (point-min))
       (re-search-forward "^Global$")

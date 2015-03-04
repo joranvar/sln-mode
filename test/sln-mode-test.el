@@ -50,7 +50,7 @@ EndGlobal
     (sln-add-project "NewProjectFile.csproj" "NewProjectName" "ProjectUUID")
     (goto-char (point-min))
     (forward-line 4)
-    (should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectFile.csproj\", \"{ProjectUUID}\"\n"))
+    (should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"NewProjectName\", \"NewProjectFile.csproj\", \"{PROJECTUUID}\"\n"))
     (forward-line)
     (should (equal (thing-at-point 'line) "EndProject\n"))
     ))
@@ -61,7 +61,7 @@ EndGlobal
     (sln-add-project "DifferentProjectName.csproj" nil "ProjectUUID")
     (goto-char (point-min))
     (forward-line 4)
-    (should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"DifferentProjectName\", \"DifferentProjectName.csproj\", \"{ProjectUUID}\"\n"))
+    (should (equal (thing-at-point 'line) "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"DifferentProjectName\", \"DifferentProjectName.csproj\", \"{PROJECTUUID}\"\n"))
     (forward-line)
     (should (equal (thing-at-point 'line) "EndProject\n"))
     ))
@@ -85,7 +85,7 @@ EndGlobal
     (should (re-search-forward "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"unknown\", \"unknown.csproj\", \"{[0-9a-fA-F]\\{8\\}-[0-9a-fA-F]\\{4\\}-[0-9a-fA-F]\\{4\\}-[0-9a-fA-F]\\{4\\}-[0-9a-fA-F]\\{12\\}}\"" nil t))
     ))
 
-(ert-deftest sln-add-project--with-existing-project-file--should-get-uuid-from-there ()
+(ert-deftest sln-add-project--with-existing-project-file--should-get-uuid-from-there-in-uppercase ()
   (with-temp-buffer
     (sln-test--insert-empty-solution)
     (let ((project-file-name (sln-test--create-temp-project-file "Assembly.Name" "7ed17131-5d69-4798-ab36-d646119df350")))
@@ -93,7 +93,7 @@ EndGlobal
       (goto-char (point-min))
       (forward-line 4)
       (should (equal (thing-at-point 'line)
-                     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"TempProjectName\", \"${project-file-name}\", \"{7ed17131-5d69-4798-ab36-d646119df350}\"\n")))
+                     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"TempProjectName\", \"${project-file-name}\", \"{7ED17131-5D69-4798-AB36-D646119DF350}\"\n")))
     (forward-line)
     (should (equal (thing-at-point 'line) "EndProject\n")))))
 
@@ -108,13 +108,13 @@ EndGlobal
     (goto-char (point-min))
     (re-search-forward "GlobalSection(ProjectConfigurationPlatforms)")
     (forward-line 1)
-    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU\n"))
+    (should (equal (thing-at-point 'line) "\t\t{PROJECTUUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU\n"))
     (forward-line)
-    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Debug|Any CPU.Build.0 = Debug|Any CPU\n"))
+    (should (equal (thing-at-point 'line) "\t\t{PROJECTUUID}.Debug|Any CPU.Build.0 = Debug|Any CPU\n"))
     (forward-line)
-    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Release|Any CPU.ActiveCfg = Release|Any CPU\n"))
+    (should (equal (thing-at-point 'line) "\t\t{PROJECTUUID}.Release|Any CPU.ActiveCfg = Release|Any CPU\n"))
     (forward-line)
-    (should (equal (thing-at-point 'line) "\t\t{ProjectUUID}.Release|Any CPU.Build.0 = Release|Any CPU\n"))
+    (should (equal (thing-at-point 'line) "\t\t{PROJECTUUID}.Release|Any CPU.Build.0 = Release|Any CPU\n"))
     ))
 
 ;;; sln-mode-test.el ends here
