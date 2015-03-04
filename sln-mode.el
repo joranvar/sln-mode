@@ -333,7 +333,10 @@ PROJECT-FILE-NAME."
           (-each '("ActiveCfg" "Build.0")
             (lambda (setting)
               (insert
-               (s-lex-format "\t\t{${project-uuid}}.${config}|Any CPU.${setting} = ${config}|Any CPU\n")))))))))
+               (s-lex-format "\t\t{${project-uuid}}.${config}|Any CPU.${setting} = ${config}|Any CPU\n")))))))
+    (save-excursion
+      (unless (f-exists? project-file-name)
+        (find-file-other-window project-file-name)))))
 
 ;;;###autoload
 (define-derived-mode sln-mode text-mode "sln"
