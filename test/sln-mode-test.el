@@ -4,15 +4,15 @@
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
+        GlobalSection(SolutionConfigurationPlatforms) = preSolution
+                Debug|Any CPU = Debug|Any CPU
+                Release|Any CPU = Release|Any CPU
+        EndGlobalSection
+        GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        EndGlobalSection
+        GlobalSection(SolutionProperties) = preSolution
+                HideSolutionNode = FALSE
+        EndGlobalSection
 EndGlobal
 "))
 
@@ -20,7 +20,7 @@ EndGlobal
 
 (defun sln-test--insert-empty-csharp-project (assembly-name project-uuid)
   (insert (s-lex-format
-	   "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+           "<?xml version=\"1.0\" encoding=\"utf-8\"?>
 <Project ToolsVersion=\"12.0\" DefaultTargets=\"Build\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">
   <Import Project=\"$(MSBuildExtensionsPath)\\$(MSBuildToolsVersion)\\Microsoft.Common.props\" Condition=\"Exists('$(MSBuildExtensionsPath)\\$(MSBuildToolsVersion)\\Microsoft.Common.props')\" />
   <PropertyGroup>
@@ -37,12 +37,12 @@ EndGlobal
 
 (defun sln-test--create-temp-project-file (assembly-name project-uuid)
     (let ((file-name (make-temp-file
-		      (expand-file-name "sln-test"
-					(or small-temporary-file-directory
-					    temporary-file-directory)) nil ".csproj")))
+                      (expand-file-name "sln-test"
+                                        (or small-temporary-file-directory
+                                            temporary-file-directory)) nil ".csproj")))
       (with-temp-file file-name
-	(sln-test--insert-empty-csharp-project assembly-name project-uuid)
-	file-name)))
+        (sln-test--insert-empty-csharp-project assembly-name project-uuid)
+        file-name)))
 
 (ert-deftest sln-add-project--in-empty-solution--should-add-it-right-on-top ()
   (with-temp-buffer
@@ -93,7 +93,7 @@ EndGlobal
       (goto-char (point-min))
       (forward-line 4)
       (should (equal (thing-at-point 'line)
-		     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"TempProjectName\", \"${project-file-name}\", \"{7ed17131-5d69-4798-ab36-d646119df350}\"\n")))
+                     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"TempProjectName\", \"${project-file-name}\", \"{7ed17131-5d69-4798-ab36-d646119df350}\"\n")))
     (forward-line)
     (should (equal (thing-at-point 'line) "EndProject\n")))))
 

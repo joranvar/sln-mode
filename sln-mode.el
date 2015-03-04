@@ -5,9 +5,9 @@
 ;; Author: Florian Kaufmann <sensorflo@gmail.com>
 ;; Created: 2013
 ;; Keywords: languages
-;; 
+;;
 ;; This file is not part of GNU Emacs.
-;; 
+;;
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 2, or (at your option)
@@ -22,10 +22,10 @@
 ;; along with this program; see the file COPYING.  If not, write to
 ;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth
 ;; Floor, Boston, MA 02110-1301, USA.
-;; 
-;; 
+;;
+;;
 ;;; Commentary:
-;; 
+;;
 ;; A major-mode for msvc's *.sln files.
 
 ;;(require 'font-lock-ext) ; https://github.com/sensorflo/font-lock-ext/
@@ -249,7 +249,7 @@ then nothing is done."
 
 BEG and END define the region to be unfontified."
   (font-lock-default-unfontify-region beg end)
-  
+
   ;; todo: this is an extremely brute force solution and interacts very badly
   ;; with many (minor) modes using overlays such as flyspell or ediff
   (remove-overlays beg end))
@@ -288,11 +288,11 @@ BEG and END define the region to be unfontified."
   "Extract the project uuid from PROJECT-FILE-NAME."
   (if (f-readable? project-file-name)
       (with-temp-buffer
-	(insert-file-contents project-file-name)
-	(if (re-search-forward "<ProjectGuid>{\\(.+\\)}</ProjectGuid>"
-			       nil t)
-	    (match-string 1)
-	  nil))
+        (insert-file-contents project-file-name)
+        (if (re-search-forward "<ProjectGuid>{\\(.+\\)}</ProjectGuid>"
+                               nil t)
+            (match-string 1)
+          nil))
     nil))
 
 (defun sln--generate-uuid ()
@@ -308,13 +308,13 @@ If PROJECT-NAME is non-nil, this is the name of the project.
   (or (< 0 (length project-file-name))
       (error "Invalid project-file-name: '%s'" project-file-name))
   (let ((project-file-name (if buffer-file-name
-			       (f-relative project-file-name (f-dirname buffer-file-name))
-			     project-file-name))
-	(project-name (or project-name (f-base project-file-name)))
-	(project-uuid (or project-uuid
-			  (sln--get-project-uuid-from-file project-file-name)
-			  (sln--generate-uuid)
-			  )))
+                               (f-relative project-file-name (f-dirname buffer-file-name))
+                             project-file-name))
+        (project-name (or project-name (f-base project-file-name)))
+        (project-uuid (or project-uuid
+                          (sln--get-project-uuid-from-file project-file-name)
+                          (sln--generate-uuid)
+                          )))
     (save-excursion
       (goto-char (point-min))
       (re-search-forward "^Global$")
@@ -326,17 +326,17 @@ If PROJECT-NAME is non-nil, this is the name of the project.
       (re-search-forward "GlobalSection(ProjectConfigurationPlatforms)")
       (forward-line 1)
       (-each '("Debug" "Release")
-	(lambda (config)
-	  (-each '("ActiveCfg" "Build.0")
-	    (lambda (setting)
-	      (insert
-	       (s-lex-format "\t\t{${project-uuid}}.${config}|Any CPU.${setting} = ${config}|Any CPU\n")))))))))
+        (lambda (config)
+          (-each '("ActiveCfg" "Build.0")
+            (lambda (setting)
+              (insert
+               (s-lex-format "\t\t{${project-uuid}}.${config}|Any CPU.${setting} = ${config}|Any CPU\n")))))))))
 
 ;;;###autoload
 (define-derived-mode sln-mode text-mode "sln"
   "Major mode for editing msvc's *.sln files.
 Turning on sln mode runs the normal hook `sln-mode-hook'."
-  
+
   ;; syntax table
   (modify-syntax-entry ?$ ".")
   (modify-syntax-entry ?% ".")
@@ -366,13 +366,13 @@ Turning on sln mode runs the normal hook `sln-mode-hook'."
   (set (make-local-variable 'comment-end) "")
   (set (make-local-variable 'comment-start-skip) "\\(#[ \t]*\\)")
   (set (make-local-variable 'comment-end-skip) "[ \t]*\\(?:\n\\|\\'\\)")
-  
+
   ;; font lock
   (set (make-local-variable 'font-lock-defaults)
        '(sln-font-lock-keywords))
   (set (make-local-variable 'font-lock-unfontify-region-function)
        'sln-unfontify-region-function)
-  
+
   ;; indentation
   (set (make-local-variable 'indent-line-function)
        'sln-indent-line-function)
