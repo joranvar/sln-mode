@@ -1,3 +1,5 @@
+#! /usr/bin/env watchr
+
 ENV["WATCHR"] = "1"
 system 'clear'
 
@@ -20,18 +22,7 @@ Signal.trap 'QUIT' do
   run_all_tests
 end
 
-@interrupted = false
 # Ctrl-C
 Signal.trap 'INT' do
-  if @interrupted then
-    @wants_to_quit = true
-    abort("\n")
-  else
-    puts "Interrupt a second time to quit"
-    @interrupted = true
-    Kernel.sleep 1.5
-    # raise Interrupt, nil # let the run loop catch it
-    run_all_tests
-    @interrupted = false
-  end
+  abort("\n")
 end
