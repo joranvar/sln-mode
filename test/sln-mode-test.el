@@ -88,12 +88,13 @@ EndGlobal
 (ert-deftest sln-add-project--with-existing-project-file--should-get-uuid-from-there-in-uppercase ()
   (with-temp-buffer
     (sln-test--insert-empty-solution)
-    (let ((project-file-name (sln-test--create-temp-project-file "Assembly.Name" "7ed17131-5d69-4798-ab36-d646119df350")))
+    (let* ((project-file-name (sln-test--create-temp-project-file "Assembly.Name" "7ed17131-5d69-4798-ab36-d646119df350"))
+           (windows-style-file-name (s-replace "/" "\\" project-file-name)))
       (sln-add-project project-file-name "TempProjectName")
       (goto-char (point-min))
       (forward-line 4)
       (should (equal (thing-at-point 'line)
-                     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"TempProjectName\", \"${project-file-name}\", \"{7ED17131-5D69-4798-AB36-D646119DF350}\"\n")))
+                     (s-lex-format "Project(\"{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}\") = \"TempProjectName\", \"${windows-style-file-name}\", \"{7ED17131-5D69-4798-AB36-D646119DF350}\"\n")))
     (forward-line)
     (should (equal (thing-at-point 'line) "EndProject\n")))))
 
