@@ -16,8 +16,6 @@ Global
 EndGlobal
 "))
 
-;; TODO? Create non-existing project file from here
-
 (defun sln-test--insert-empty-csharp-project (assembly-name project-uuid)
   (insert (s-lex-format
            "<?xml version=\"1.0\" encoding=\"utf-8\"?>
