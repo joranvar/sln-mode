@@ -303,7 +303,10 @@ BEG and END define the region to be unfontified."
   "Add the project in PROJECT-FILE-NAME to the sln file.
 
 If PROJECT-NAME is non-nil, this is the name of the project.
-  Otherwise, it will be derived from the PROJECT-FILE-NAME."
+Otherwise, it will be derived from the PROJECT-FILE-NAME.  If
+PROJECT-UUID is present, it will be used as the UUID of the
+project.  If it is nil, it will be fetched from the
+PROJECT-FILE-NAME."
   (interactive "FProject file: ")
   (or (< 0 (length project-file-name))
       (error "Invalid project-file-name: '%s'" project-file-name))
